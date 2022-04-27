@@ -1,5 +1,6 @@
+import React from 'react';
 import Document, { Html, Main, NextScript } from 'next/document';
-import Head from 'next/head';
+import Head from 'next/head'
 
 export default class MyDocument extends Document {
   render(){
