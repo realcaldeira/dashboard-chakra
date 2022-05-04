@@ -1,4 +1,5 @@
 import { Stack, Button, Box, Text } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { PaginationITem } from './PaginationItem';
 
 interface PaginationProps {
@@ -10,75 +11,91 @@ interface PaginationProps {
 
 const siblingsCount = 1;
 
-function generatePagesArray(from: number, to: number){
+function generatePagesArray(from: number, to: number) {
   return [...new Array(to - from)]
-    .map((_, index)=> {
-      return from + index + 1;
-    })
-    .filter(page => page > 0)
+    .map((_, i) => i + from + 1)
+    .filter(page => page > 0);
 }
 
 export function Pagination({
   totalCountOfRegisters,
-  registersPerPage = 10,
   currentPage = 1,
+  registersPerPage = 10,
   onPageChange
-}: PaginationProps){
-  const lastPage = Math.floor(totalCountOfRegisters / registersPerPage);
+}: PaginationProps) {
+  const lastPage = Math.ceil(totalCountOfRegisters / registersPerPage);
 
-  const previousPages = currentPage > 1
-    ? generatePagesArray(currentPage - 1 - siblingsCount, currentPage - 1)
-    : []
+  const previousPages =
+    currentPage > 1
+      ? generatePagesArray(currentPage - 1 - siblingsCount, currentPage - 1)
+      : [];
 
-  const nextPages = currentPage > 1
-  ? generatePagesArray(currentPage, Math.min(currentPage + siblingsCount, lastPage))
-  : []
+  const nextPages =
+    currentPage < lastPage
+      ? generatePagesArray(
+          currentPage,
+          Math.min(currentPage + siblingsCount, lastPage)
+        )
+      : [];
 
-  return(
+  return (
     <Stack
-      direction={['column', 'row']}
-      mt='8'
-      justify='space-between'
-      align='center'
-      spacing='6'
+      direction={["column", "row"]}
+      mt="8"
+      justify="space-between"
+      align="center"
+      spacing="6"
     >
       <Box>
-        <strong>0</strong> - <strong>10</strong> de <strong>100</strong>
+        <strong>{currentPage * 10 - 9}</strong> -{" "}
+        <strong>
+          {currentPage * 10 > totalCountOfRegisters
+            ? totalCountOfRegisters
+            : currentPage * 10}
+        </strong>{" "}
+        de <strong>{totalCountOfRegisters}</strong>
       </Box>
-      <Stack
-        direction='row'
-        spacing='2'
-      >
-
-        {currentPage > (1 + siblingsCount) && (
+      <Stack direction="row" spacing="2">
+        {currentPage > 1 + siblingsCount && (
           <>
-            <PaginationITem number={1} />
-            { currentPage > (2 + siblingsCount) && (
-               <Text color='gray.300' width='8' textAlign='center'>...</Text>
+            <PaginationITem number={1} onPageChange={onPageChange} />
+            {currentPage > 2 + siblingsCount && (
+              <Text color="gray.300" width="8" textAlign="center">
+                ...
+              </Text>
             )}
           </>
         )}
-        
-        {previousPages.length > 0 && previousPages.map(page => {
-          return <PaginationITem key={page} number={page} />
-        })}
 
-        <PaginationITem number={currentPage} isCurrent />
+        {previousPages.map(page => (
+          <PaginationITem
+            key={page}
+            number={page}
+            onPageChange={onPageChange}
+          />
+        ))}
 
-        {nextPages.length > 0 && nextPages.map(page => {
-          return <PaginationITem key={page} number={page} />
-        })}
+        <PaginationITem
+          number={currentPage}
+          isCurrent
+          onPageChange={onPageChange}
+        />
 
-        {(currentPage + siblingsCount) < lastPage && (
+        {nextPages.map(page => (
+          <PaginationITem
+            key={page}
+            number={page}
+            onPageChange={onPageChange}
+          />
+        ))}
+
+        {currentPage + siblingsCount < lastPage && (
           <>
-            { (currentPage + 1 + siblingsCount) < lastPage && (
-              <Text color='gray.300' width='8' textAlign='center'>...</Text>
-            )}
-            <PaginationITem number={lastPage} />
+            {currentPage + 1 + siblingsCount < lastPage && <Text>...</Text>}
+            <PaginationITem number={lastPage} onPageChange={onPageChange} />
           </>
         )}
-       
       </Stack>
     </Stack>
-  )
+  );
 }
