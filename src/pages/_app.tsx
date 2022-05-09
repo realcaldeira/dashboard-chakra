@@ -4,12 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { theme } from '../styles/theme';
 import { SidebarDrawerProvider } from '../contexts/SidebarDrawerContext';
-import { makeServer } from '../services/mirage';
 import { AuthProvider } from '../context/AuthContext';
-
-if(process.env.NODE_ENV === 'development'){
-  makeServer();
-}
 
 const queryClient = new QueryClient()
 
