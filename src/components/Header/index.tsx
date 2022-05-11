@@ -5,6 +5,7 @@ import { Logo } from "./Logo";
 import { NotificationsNav } from "./NotificationsNav";
 import { Profile } from "./Profile";
 import { SearchBox } from "./SearchBox";
+import { SignOut } from "./SignOut";
 
 export function Header(){
   const { onOpen } = useSidebarDrawer();
@@ -49,6 +50,7 @@ export function Header(){
         <NotificationsNav /> 
         
        <Profile showProfileData={isWideVersion} />
+       <SignOut />
       </Flex>
     </Flex>
   )
