@@ -1,3 +1,4 @@
+
 import { Button, Flex, Stack } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -5,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../components/Form/input';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { withSSRGuest } from '../../utils/withSSRGuest';
 
 type SignInFormData = {
   email: string;
@@ -65,3 +67,9 @@ export default function SignIn() {
    </Flex>
   )
 }
+
+export const getServerSideProps = withSSRGuest (async (ctx) => {
+  return {
+    props: {}
+  }
+});
