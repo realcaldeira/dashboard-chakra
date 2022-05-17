@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { api } from "../api";
+import { api } from "../apiClient";
 
 type User = {
   id: string;
@@ -20,7 +20,7 @@ export async function getUsers(page: number): Promise<GetUsersResponse>{
     }
   })
 
-  const users = data.users.map(user => {
+  const users = data.map(user => {
     return {
       id: user.id,
       name: user.name,

@@ -6,13 +6,13 @@ import { signOut } from '../context/AuthContext';
 let isRefreshing = false;
 let failedRequestQueue = [];
 
+export const api = axios.create({
+  baseURL: 'http://localhost:3000/api'
+})
+
 export function setupAPIClient(ctx = undefined){
   let cookies = parseCookies(ctx)
 
-   const api = axios.create({
-    baseURL: 'http://localhost:3000/api'
-  })
-  
    const apiAuth = axios.create({
     baseURL: 'http://localhost:3333',
     headers: {

@@ -1,5 +1,6 @@
 import { Stack, Button, Box, Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
+import { api } from '../../services/apiClient';
 import { PaginationITem } from './PaginationItem';
 
 interface PaginationProps {
@@ -38,6 +39,7 @@ export function Pagination({
         )
       : [];
 
+  
   return (
     <Stack
       direction={["column", "row"]}
