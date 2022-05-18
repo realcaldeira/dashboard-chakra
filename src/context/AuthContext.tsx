@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
 import { createContext, ReactNode, useEffect, useState } from 'react';
+
 import { api } from '../services/apiClient';
 
 type User = {
@@ -42,6 +43,7 @@ export function AuthProvider({ children }: AuthProviderProps){
   const [user, setUser] = useState<User>()
   const isAuthenticated = !!user;
 
+
   useEffect(()=> {
     authChannel = new BroadcastChannel('auth')
 
@@ -69,6 +71,7 @@ export function AuthProvider({ children }: AuthProviderProps){
   },[])
 
   async function signIn({ email, password }){
+    
     try {
       const response = await api.post('sessions',{
         email,
@@ -99,6 +102,8 @@ export function AuthProvider({ children }: AuthProviderProps){
     } catch(err){
       console.log('err', err)
       Router.push('/dashboard')
+      alert('Não foi possível autenticar')
+      
     }
   }
 
